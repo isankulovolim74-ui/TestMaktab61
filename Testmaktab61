@@ -1,0 +1,20 @@
+name: Unpack
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          unzip -q olimtest-stage1.zip
+          rm olimtest-stage1.zip
+          rm -rf olimtest/.github
+          cp -r olimtest/. .
+          rm -rf olimtest
+          git config user.name bot
+          git config user.email bot@users.noreply.github.com
+          git add -A
+          git commit -m "Unpack stage 1"
+          git push
